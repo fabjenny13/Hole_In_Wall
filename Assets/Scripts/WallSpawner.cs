@@ -68,7 +68,7 @@ public class WallSpawner : MonoBehaviour
         {
             //Instantiate(wallPrefab, spawnLocation, Quaternion.Euler(0,0,0));
             CreateWall();
-            yield return new WaitForSeconds(Random.Range(5.0f, 10.0f));
+            yield return new WaitForSeconds(Random.Range(7.0f, 10.0f));
         }
     }
 }

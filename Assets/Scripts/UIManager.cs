@@ -20,8 +20,38 @@ public class UIManager : MonoBehaviour
     
     public void StopGame()
     {
+
         wallSpawner.StopGame();
+
+        MoveTowardsPlayer[] walls = FindObjectsByType<MoveTowardsPlayer>(
+    FindObjectsSortMode.None
+);
+
+        foreach (var wall in walls)
+        {
+            Destroy(wall.gameObject);
+        }
+
+
         Menu.SetActive(true);
+    }
+
+    public void ResetGame()
+    {
+
+        wallSpawner.StopGame();
+
+        MoveTowardsPlayer[] walls = FindObjectsByType<MoveTowardsPlayer>(
+    FindObjectsSortMode.None
+);
+
+        foreach (var wall in walls)
+        {
+            Destroy(wall.gameObject);
+        }
+
+
+        wallSpawner.StartGame();
     }
 
     public void Quit()
