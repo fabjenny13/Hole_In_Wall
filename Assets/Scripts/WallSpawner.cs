@@ -11,11 +11,10 @@ public class WallSpawner : MonoBehaviour
     int height, width; //no. of blocks across and down
     void Start()
     {
-        //StartCoroutine(SpawnWall());
-        height = 9;
-        width = 9;
+        StartCoroutine(SpawnWall());
+        height = 4;
+        width = 6;
 
-        CreateWall();
     }
 
     void CreateWall()
@@ -24,8 +23,8 @@ public class WallSpawner : MonoBehaviour
         GameObject parentWall = new GameObject();
         parentWall.transform.position = spawnLocation;
 
-        int skipH = Random.Range(1, height - 2);
-        int skipW = Random.Range(1, width - 2);
+        int skipH = Random.Range(1, height - 1);
+        int skipW = Random.Range(1, width - 1);
 
         int upperLimit = height / 2;
         int leftLimit = width / 2;
@@ -44,14 +43,18 @@ public class WallSpawner : MonoBehaviour
             leftLimit = width / 2;
             upperLimit++;
         }
+
+        parentWall.transform.position = new Vector3(spawnLocation.x - width, spawnLocation.y - height, spawnLocation.z);
+        parentWall.AddComponent<MoveTowardsPlayer>();
     }
     
     IEnumerator SpawnWall()
     {
         while (true)
         {
-            Instantiate(wallPrefab, spawnLocation, Quaternion.Euler(0,0,0));
-            yield return new WaitForSeconds(Random.Range(3.0f, 6.0f));
+            //Instantiate(wallPrefab, spawnLocation, Quaternion.Euler(0,0,0));
+            CreateWall();
+            yield return new WaitForSeconds(Random.Range(5.0f, 10.0f));
         }
     }
 }
