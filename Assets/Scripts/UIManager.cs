@@ -1,19 +1,25 @@
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     public GameObject Menu;
-
+    public TextMeshProUGUI ScoreText;
     WallSpawner wallSpawner;
+
+    int score;
+
 
     private void Start()
     {
         Menu.SetActive(true);
+        score = 0;
         wallSpawner = GetComponent<WallSpawner>();
     }
     public void StartGame()
     {
+        score = 0;
         Menu.SetActive(false);
         wallSpawner.StartGame();
     }
@@ -38,7 +44,6 @@ public class UIManager : MonoBehaviour
 
     public void ResetGame()
     {
-
         wallSpawner.StopGame();
 
         MoveTowardsPlayer[] walls = FindObjectsByType<MoveTowardsPlayer>(
@@ -50,8 +55,15 @@ public class UIManager : MonoBehaviour
             Destroy(wall.gameObject);
         }
 
+        score = 0;
 
         wallSpawner.StartGame();
+    }
+
+    public void IncreaseScore()
+    {
+        score += 10;
+        ScoreText.text = score.ToString();
     }
 
     public void Quit()

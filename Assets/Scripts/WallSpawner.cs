@@ -47,10 +47,20 @@ public class WallSpawner : MonoBehaviour
         {
             for(int j = 0; j < width; j++)
             {
+                Vector3 loc = new Vector3(leftLimit, upperLimit, parentWall.transform.position.z);
+
                 if (!(i == skipH && j == skipW))
                 {
-                    Vector3 loc = new Vector3(leftLimit, upperLimit, parentWall.transform.position.z);
                     Instantiate(wallPiece, loc, Quaternion.Euler(0, 0, 0), parentWall.transform);
+                }
+                else
+                {
+                    GameObject wall = new GameObject("Hole");
+                    wall.transform.SetParent(parentWall.transform);
+                    wall.transform.SetPositionAndRotation(loc, Quaternion.identity);
+                    wall.AddComponent<BoxCollider>();
+                    wall.GetComponent<BoxCollider>().isTrigger = true;
+                    wall.AddComponent<HoleTrigger>();
                 }
                 leftLimit++;
             }
