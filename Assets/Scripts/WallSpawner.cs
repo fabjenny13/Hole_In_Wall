@@ -11,10 +11,24 @@ public class WallSpawner : MonoBehaviour
     int height, width; //no. of blocks across and down
     void Start()
     {
-        StartCoroutine(SpawnWall());
-        height = 4;
-        width = 6;
+        Renderer wallPieceRenderer = wallPiece.GetComponent<Renderer>();
 
+        height = 4;
+        width = 8;
+
+    }
+
+    public void StartGame()
+    {
+        Random.InitState(12345);
+        StartCoroutine(SpawnWall());
+    }
+
+
+    public void StopGame()
+
+    {
+        StopCoroutine(SpawnWall());
     }
 
     void CreateWall()
