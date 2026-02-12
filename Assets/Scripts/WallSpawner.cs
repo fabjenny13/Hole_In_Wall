@@ -12,8 +12,8 @@ public class WallSpawner : MonoBehaviour
     int curr;
     void Start()
     {
-        height = 4;
-        width = 8;
+        height = 5;
+        width = 10;
 
         curr = 0;
 
