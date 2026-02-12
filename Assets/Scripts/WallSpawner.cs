@@ -12,6 +12,7 @@ public class WallSpawner : MonoBehaviour
     int curr;
     void Start()
     {
+        //FIX THIS! needs to be according to aspect view ratio.
         height = 5;
         width = 10;
 

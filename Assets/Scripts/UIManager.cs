@@ -6,10 +6,12 @@ public class UIManager : MonoBehaviour
 {
     public GameObject Menu;
     public GameObject ReplayMenu;
-    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI[] ScoreText;
+    public TextMeshProUGUI[] HighScoreText;
     WallSpawner wallSpawner;
 
     int score;
+    int highScore;
 
 
     private void Start()
@@ -17,15 +19,28 @@ public class UIManager : MonoBehaviour
         Menu.SetActive(true);
         ReplayMenu.SetActive(false);
         score = 0;
+        highScore = 0;
         wallSpawner = GetComponent<WallSpawner>();
     }
+
+    private void SetScoreText(int score)
+    {
+        for (int i = 0; i < ScoreText.Length; i++)
+        {
+            ScoreText[i].text = score.ToString();
+        }
+    }
+
+
     public void StartGame()
     {
         score = 0;
+        SetScoreText(score);
         Menu.SetActive(false);
         ReplayMenu.SetActive(false);
         wallSpawner.StartGame();
     }
+
     
     public void StopGame()
     {
@@ -74,7 +89,19 @@ public class UIManager : MonoBehaviour
     public void IncreaseScore()
     {
         score += 10;
-        ScoreText.text = score.ToString();
+
+        SetScoreText(score);
+
+
+        if (score > highScore)
+        {
+            highScore = score;
+
+            for (int i = 0; i < HighScoreText.Length; i++)
+            {
+                HighScoreText[i].text = highScore.ToString();
+            }
+        }
     }
 
     public void DecreaseScore()
@@ -83,7 +110,9 @@ public class UIManager : MonoBehaviour
             score -= 5;
         else
             score = 0;
-        ScoreText.text = score.ToString();
+
+        SetScoreText(score);
+
     }
 
     public void Quit()
