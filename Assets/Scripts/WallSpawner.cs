@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WallSpawner : MonoBehaviour
@@ -12,9 +13,18 @@ public class WallSpawner : MonoBehaviour
     int curr;
     void Start()
     {
+        float zDistance = Mathf.Abs(
+    transform.position.z - Camera.main.transform.position.z
+);
+
+        Vector3 screenBounds = Camera.main.ScreenToWorldPoint(
+            new Vector3(Screen.width, Screen.height, zDistance)
+        );
+
+        Debug.Log(screenBounds.x + " " + screenBounds.y);
         //FIX THIS! needs to be according to aspect view ratio.
-        height = 5;
-        width = 10;
+        height = (int)screenBounds.y + 2;
+        width = (int)screenBounds.x + 2;
 
         curr = 0;
 
@@ -39,11 +49,11 @@ public class WallSpawner : MonoBehaviour
         GameObject parentWall = new GameObject();
         parentWall.transform.position = spawnLocation;
 
-        int skipH = Random.Range(1, height - 1);
-        int skipW = Random.Range(1, width - 1);
+        int skipH = Random.Range(2, height - 2);
+        int skipW = Random.Range(2, width - 2);
 
         int upperLimit = height / 2;
-        int leftLimit = width / 2;
+        int leftLimit = width / 2 + 1;
 
         for(int i = 0; i < height; i++)
         {
@@ -66,7 +76,7 @@ public class WallSpawner : MonoBehaviour
                 }
                 leftLimit++;
             }
-            leftLimit = width / 2;
+            leftLimit = width / 2 + 1;
             upperLimit++;
         }
 
