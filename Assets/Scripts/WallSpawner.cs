@@ -26,9 +26,8 @@ public class WallSpawner : MonoBehaviour
 
 
     public void StopGame()
-
     {
-        StopCoroutine(SpawnWall());
+        StopAllCoroutines();
     }
 
     void CreateWall()

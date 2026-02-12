@@ -66,6 +66,12 @@ public class UIManager : MonoBehaviour
         ScoreText.text = score.ToString();
     }
 
+    public void DecreaseScore()
+    {
+        score -= 5;
+        ScoreText.text = score.ToString();
+    }
+
     public void Quit()
     {
         Application.Quit();
