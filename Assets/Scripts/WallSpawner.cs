@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class WallSpawner : MonoBehaviour
 {
-    public GameObject wallPrefab;
     public Vector3 spawnLocation;
 
 
@@ -75,7 +74,6 @@ public class WallSpawner : MonoBehaviour
     {
         while (true)
         {
-            //Instantiate(wallPrefab, spawnLocation, Quaternion.Euler(0,0,0));
             CreateWall();
             yield return new WaitForSeconds(Random.Range(7.0f, 10.0f));
         }

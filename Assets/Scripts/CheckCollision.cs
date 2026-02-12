@@ -8,8 +8,8 @@ public class CheckCollision : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            GetComponent<Animator>().SetTrigger("Destroy");
             FindFirstObjectByType<UIManager>().DecreaseScore();
-
         }
     }
 }
