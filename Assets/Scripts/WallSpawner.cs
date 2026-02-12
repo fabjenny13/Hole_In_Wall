@@ -6,14 +6,16 @@ public class WallSpawner : MonoBehaviour
     public Vector3 spawnLocation;
 
 
-    public GameObject wallPiece;
+    public GameObject[] wallPiece;
+
     int height, width; //no. of blocks across and down
+    int curr;
     void Start()
     {
-        Renderer wallPieceRenderer = wallPiece.GetComponent<Renderer>();
-
         height = 4;
         width = 8;
+
+        curr = 0;
 
     }
 
@@ -49,7 +51,7 @@ public class WallSpawner : MonoBehaviour
 
                 if (!(i == skipH && j == skipW))
                 {
-                    Instantiate(wallPiece, loc, Quaternion.Euler(0, 0, 0), parentWall.transform);
+                    Instantiate(wallPiece[curr], loc, Quaternion.Euler(0, 0, 0), parentWall.transform);
                 }
                 else
                 {
@@ -68,6 +70,8 @@ public class WallSpawner : MonoBehaviour
 
         parentWall.transform.position = new Vector3(spawnLocation.x - width, spawnLocation.y - height, spawnLocation.z);
         parentWall.AddComponent<MoveTowardsPlayer>();
+
+        curr = (curr + 1) % wallPiece.Length;
     }
     
     IEnumerator SpawnWall()

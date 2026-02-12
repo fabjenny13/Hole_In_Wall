@@ -3735,7 +3735,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnLocation: {x: 0, y: 0, z: 10}
-  wallPiece: {fileID: 6212060932732261357, guid: 403f75abe2ab0754c982684864a2209d, type: 3}
+  wallPiece:
+  - {fileID: 6212060932732261357, guid: 403f75abe2ab0754c982684864a2209d, type: 3}
+  - {fileID: 6212060932732261357, guid: af97a7616a587394eac0e43e607d08ec, type: 3}
 --- !u!4 &1741307631
 Transform:
   m_ObjectHideFlags: 0

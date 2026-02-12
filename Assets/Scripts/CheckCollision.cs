@@ -7,7 +7,6 @@ public class CheckCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Crashed");
         if(other.tag == "WallPiece" && !hasCrashed)
         {
             hasCrashed = true;
