@@ -5,6 +5,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public GameObject Menu;
+    public GameObject ReplayMenu;
     public TextMeshProUGUI ScoreText;
     WallSpawner wallSpawner;
 
@@ -14,6 +15,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         Menu.SetActive(true);
+        ReplayMenu.SetActive(false);
         score = 0;
         wallSpawner = GetComponent<WallSpawner>();
     }
@@ -21,6 +23,7 @@ public class UIManager : MonoBehaviour
     {
         score = 0;
         Menu.SetActive(false);
+        ReplayMenu.SetActive(false);
         wallSpawner.StartGame();
     }
     
@@ -39,11 +42,19 @@ public class UIManager : MonoBehaviour
         }
 
 
+        ReplayMenu.SetActive(true);
+    }
+
+    public void ExitToMainMenu()
+    {
+        ReplayMenu.SetActive(false);
         Menu.SetActive(true);
     }
 
     public void ResetGame()
     {
+
+
         wallSpawner.StopGame();
 
         MoveTowardsPlayer[] walls = FindObjectsByType<MoveTowardsPlayer>(

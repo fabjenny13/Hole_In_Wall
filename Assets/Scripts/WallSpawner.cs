@@ -22,6 +22,7 @@ public class WallSpawner : MonoBehaviour
     public void StartGame()
     {
         Random.InitState(12345);
+        curr = 0;
         StartCoroutine(SpawnWall());
     }
 
