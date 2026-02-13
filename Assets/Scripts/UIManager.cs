@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI[] HighScoreText;
     WallSpawner wallSpawner;
 
+
     int score;
     int highScore;
 
@@ -39,12 +40,13 @@ public class UIManager : MonoBehaviour
         Menu.SetActive(false);
         ReplayMenu.SetActive(false);
         wallSpawner.StartGame();
+        SQLiteManager.Instance.BeginSession();
     }
 
     
     public void StopGame()
     {
-
+        SQLiteManager.Instance.EndSession();
         wallSpawner.StopGame();
 
         MoveTowardsPlayer[] walls = FindObjectsByType<MoveTowardsPlayer>(
@@ -69,7 +71,7 @@ public class UIManager : MonoBehaviour
     public void ResetGame()
     {
 
-
+        SQLiteManager.Instance.EndSession();
         wallSpawner.StopGame();
 
         MoveTowardsPlayer[] walls = FindObjectsByType<MoveTowardsPlayer>(
@@ -82,7 +84,7 @@ public class UIManager : MonoBehaviour
         }
 
         score = 0;
-
+        SQLiteManager.Instance.BeginSession();
         wallSpawner.StartGame();
     }
 
@@ -115,6 +117,10 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public int GetScore()
+    {
+        return score;
+    }
     public void Quit()
     {
         Application.Quit();

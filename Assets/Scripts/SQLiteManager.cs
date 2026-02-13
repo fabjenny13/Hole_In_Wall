@@ -1,4 +1,4 @@
-/*using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -9,7 +9,8 @@ using Application = UnityEngine.Application;
 public class SQLiteManager : MonoBehaviour
 {
     public static SQLiteManager Instance;
-    GameManager gameManager;
+    UIManager uiManager;
+    PlayerMovement player;
 
     // ================= SQLITE LOW LEVEL =================
 
@@ -98,7 +99,7 @@ public class SQLiteManager : MonoBehaviour
     private bool sessionActive = false;
 
     [Header("Stream Logging")]
-    public Transform cursorTransform;
+
     public float streamIntervalSeconds = 1f;
 
     private Coroutine streamCoroutine;
@@ -114,7 +115,8 @@ public class SQLiteManager : MonoBehaviour
             return;
         }
 
-        gameManager = FindFirstObjectByType<GameManager>();
+        uiManager = FindFirstObjectByType<UIManager>();
+        player = FindFirstObjectByType<PlayerMovement>();
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
@@ -149,7 +151,7 @@ public class SQLiteManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError("SQLiteManager: DB init failed ? " + e.Message);
+            Debug.LogError("SQLiteManager: DB init failed → " + e.Message);
             dbAvailable = false;
         }
     }
@@ -186,17 +188,28 @@ public class SQLiteManager : MonoBehaviour
         }
     }
 
-    public void EndSession()
+    public void EndSession(bool crashed = false)
     {
         if (!dbAvailable || !sessionActive) return;
 
         lock (dbLock)
         {
-            mainDB.Exec(
-                $"UPDATE sessions " +
-                $"SET session_end_time = datetime('now'), score = {gameManager.GetCurrentScore()} " +
-                $"WHERE session_no = {currentSessionNo};"
-            );
+            if (crashed)
+            {
+                mainDB.Exec(
+                    $"UPDATE sessions " +
+                    $"SET session_end_time = null, score = null " +
+                    $"WHERE session_no = {currentSessionNo};"
+                );
+            }
+            else
+            {
+                mainDB.Exec(
+                    $"UPDATE sessions " +
+                    $"SET session_end_time = datetime('now'), score = {uiManager.GetScore()} " +
+                    $"WHERE session_no = {currentSessionNo};"
+                );
+            }
 
             StopStreamLogging();
             sessionActive = false;
@@ -234,19 +247,11 @@ public class SQLiteManager : MonoBehaviour
 
     private IEnumerator StreamRoutine()
     {
-        Camera cam = Camera.main;
 
         while (true)
         {
-            if (cam != null)
-            {
-                Vector3 mouse = Input.mousePosition;
-                mouse.z = -cam.transform.position.z; // depth for 2D
-                Vector3 world = cam.ScreenToWorldPoint(mouse);
-
-                InsertStream(world.x, world.y);
-            }
-
+           
+            InsertStream(player.gameObject.transform.position.x, player.gameObject.transform.position.y);
             yield return new WaitForSecondsRealtime(streamIntervalSeconds);
         }
     }
@@ -255,14 +260,13 @@ public class SQLiteManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        EndSession();
+        EndSession(true);
     }
 
     void OnDestroy()
     {
-        EndSession();
+        EndSession(true);
         mainDB?.Dispose();
         streamDB?.Dispose();
     }
 }
-*/
