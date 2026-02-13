@@ -20,7 +20,12 @@ public class UIManager : MonoBehaviour
         Menu.SetActive(true);
         ReplayMenu.SetActive(false);
         score = 0;
-        highScore = 0;
+        highScore = SQLiteManager.Instance.GetHighestScore();
+
+        for (int i = 0; i < HighScoreText.Length; i++)
+        {
+            HighScoreText[i].text = highScore.ToString();
+        }
         wallSpawner = GetComponent<WallSpawner>();
     }
 

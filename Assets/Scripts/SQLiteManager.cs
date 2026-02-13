@@ -256,6 +256,21 @@ public class SQLiteManager : MonoBehaviour
         }
     }
 
+    public int GetHighestScore()
+    {
+        if (!dbAvailable) return 0;
+
+        lock (dbLock)
+        {
+            long result = mainDB.ExecScalar(
+                "SELECT MAX(score) FROM sessions;"
+            );
+
+            return (int)result; // 0 if none found
+        }
+    }
+
+
     // ================= CLEANUP =================
 
     void OnApplicationQuit()

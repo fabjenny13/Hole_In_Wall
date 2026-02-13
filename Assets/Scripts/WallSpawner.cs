@@ -21,8 +21,6 @@ public class WallSpawner : MonoBehaviour
             new Vector3(Screen.width, Screen.height, zDistance)
         );
 
-        Debug.Log(screenBounds.x + " " + screenBounds.y);
-        //FIX THIS! needs to be according to aspect view ratio.
         height = (int)screenBounds.y + 2;
         width = (int)screenBounds.x + 2;
 
