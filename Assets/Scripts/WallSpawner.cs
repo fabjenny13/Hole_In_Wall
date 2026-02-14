@@ -17,6 +17,7 @@ public class WallSpawner : MonoBehaviour
     transform.position.z - Camera.main.transform.position.z
 );
 
+
         Vector3 screenBounds = Camera.main.ScreenToWorldPoint(
             new Vector3(Screen.width, Screen.height, zDistance)
         );
