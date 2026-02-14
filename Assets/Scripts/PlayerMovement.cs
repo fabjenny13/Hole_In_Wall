@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,10 +16,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        inputX = Input.GetAxisRaw("Horizontal");
-        inputY = Input.GetAxisRaw("Vertical");
+        /*        inputX = Input.GetAxisRaw("Horizontal");
+                inputY = Input.GetAxisRaw("Vertical");
 
-        transform.Translate(new Vector2(inputX, inputY) * speed * Time.deltaTime);
-        
+                transform.Translate(new Vector2(inputX, inputY) * speed * Time.deltaTime);*/
+
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = transform.position.z - Camera.main.transform.position.z;
+        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        transform.position = mousePos;
     }
 }
