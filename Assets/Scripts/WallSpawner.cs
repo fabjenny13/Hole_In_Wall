@@ -20,17 +20,21 @@ public class WallSpawner : MonoBehaviour
 );
 
 
-        Vector3 screenBounds = Camera.main.ScreenToWorldPoint(
-            new Vector3(Screen.width, Screen.height, zDistance)
-        );
+        /*        Vector3 screenBounds = Camera.main.ScreenToWorldPoint(
+                    new Vector3(Screen.width, Screen.height, zDistance)
+                );
 
+
+        */
+
+        Vector3 screenBounds = new Vector3(6, 6, 0);
         GameObject wallPieceInstance = Instantiate(wallPiece[0]);
         wallPieceWidth = wallPieceInstance.GetComponent<Collider>().bounds.size.x;
         Destroy(wallPieceInstance);
         
         Debug.Log(wallPieceWidth);
 
-        height = (int)(screenBounds.y/wallPieceWidth + 2*wallPieceWidth);
+        height = (int)(screenBounds.y / wallPieceWidth + 2*wallPieceWidth);
         width = (int)(screenBounds.x / wallPieceWidth + 2 * wallPieceWidth);
 
         curr = 0;

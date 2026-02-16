@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        speed = 2.0f;
+        speed = 1.0f;
     }
 
     // Update is called once per frame
