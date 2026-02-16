@@ -9,6 +9,8 @@ public class WallSpawner : MonoBehaviour
 
     public GameObject[] wallPiece;
 
+    float wallPieceWidth;
+
     int height, width; //no. of blocks across and down
     int curr;
     void Start()
@@ -22,8 +24,14 @@ public class WallSpawner : MonoBehaviour
             new Vector3(Screen.width, Screen.height, zDistance)
         );
 
-        height = (int)screenBounds.y + 2;
-        width = (int)screenBounds.x + 2;
+        GameObject wallPieceInstance = Instantiate(wallPiece[0]);
+        wallPieceWidth = wallPieceInstance.GetComponent<Collider>().bounds.size.x;
+        Destroy(wallPieceInstance);
+        
+        Debug.Log(wallPieceWidth);
+
+        height = (int)(screenBounds.y/wallPieceWidth + 2*wallPieceWidth);
+        width = (int)(screenBounds.x / wallPieceWidth + 2 * wallPieceWidth);
 
         curr = 0;
 
@@ -51,8 +59,8 @@ public class WallSpawner : MonoBehaviour
         int skipH = Random.Range(2, height - 2);
         int skipW = Random.Range(2, width - 2);
 
-        int upperLimit = height / 2;
-        int leftLimit = width / 2 + 1;
+        float upperLimit = (height * wallPieceWidth)/2.0f;
+        float leftLimit = (width * wallPieceWidth)/2.0f;
 
         for(int i = 0; i < height; i++)
         {
@@ -73,13 +81,15 @@ public class WallSpawner : MonoBehaviour
                     wall.GetComponent<BoxCollider>().isTrigger = true;
                     wall.AddComponent<HoleTrigger>();
                 }
-                leftLimit++;
+                leftLimit += wallPieceWidth;
+
+                Debug.Log(leftLimit);
             }
-            leftLimit = width / 2 + 1;
-            upperLimit++;
+            leftLimit = (width * wallPieceWidth)/2.0f;
+            upperLimit += wallPieceWidth;
         }
 
-        parentWall.transform.position = new Vector3(spawnLocation.x - width, spawnLocation.y - height, spawnLocation.z);
+        parentWall.transform.position = new Vector3(spawnLocation.x - width * wallPieceWidth, spawnLocation.y - height * wallPieceWidth, spawnLocation.z);
         parentWall.AddComponent<MoveTowardsPlayer>();
 
         curr = (curr + 1) % wallPiece.Length;

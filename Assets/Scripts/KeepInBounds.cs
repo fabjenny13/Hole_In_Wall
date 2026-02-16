@@ -15,7 +15,6 @@ public class ConstrainToCamera : MonoBehaviour
             new Vector3(Screen.width, Screen.height, zDistance)
         );
 
-        Debug.Log(screenBounds);
     }
 
 
